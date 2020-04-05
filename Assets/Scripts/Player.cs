@@ -9,12 +9,31 @@ public class Player : MonoBehaviour
 
     Animator animator;
 
+    private bool isActive;
+
+    private int score;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
     }
 
-    private int points;
+    private void Awake()
+    {
+        isActive = true;
+    }
+
+    
+
+    public int GetPlayerNumber()
+    {
+        return playerNumber;
+    }
+
+    public bool IsActive()
+    {
+        return isActive;
+    }
 
     public void PettingAction(bool isPetting)
     {
@@ -22,7 +41,12 @@ public class Player : MonoBehaviour
 
         if(isPetting)
         {
-            points++;
+            score++;
         }
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 }

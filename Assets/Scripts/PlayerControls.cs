@@ -15,9 +15,14 @@ public class PlayerControls : MonoBehaviour
 
     private bool pressed;
 
+    [SerializeField] private Player[] activePlayers = {null,null,null,null};
+
     private void Start()
     {
         gameOverlord = FindObjectOfType<GameOverlord>();
+
+        SetActivePlayers();
+
     }
 
     public void Update()
@@ -32,19 +37,93 @@ public class PlayerControls : MonoBehaviour
         {
             Application.Quit();
         }
+
+        DevControls();
     }
 
     private void KeyboardControls()
     {
         // control if key already pressed
-        if(Input.GetKey(KeyCode.Z))
+        if (activePlayers[0] != null)
         {
-            Debug.Log("player1");
-           
+            if (Input.GetKey(KeyCode.A))
+            {
+                Debug.Log("Player1 is petting the bat.");
+                activePlayers[0].PettingAction(true);
+            }
+            else if (Input.GetKeyUp(KeyCode.A))
+            {
+                Debug.Log("Player1 is no longer petting the bat.");
+                activePlayers[0].PettingAction(false);
+            }
+        }
+
+        if (activePlayers[1] != null)
+        {
+            if (Input.GetKey(KeyCode.F))
+            {
+                Debug.Log("Player2 is petting the bat.");
+                activePlayers[1].PettingAction(true);
+            }
+            else if (Input.GetKeyUp(KeyCode.F))
+            {
+                Debug.Log("Player2 is no longer petting the bat.");
+                activePlayers[1].PettingAction(false);
+            }
+        }
+
+        if (activePlayers[2] != null)
+        {
+            if (Input.GetKey(KeyCode.J))
+            {
+                Debug.Log("Player3 is petting the bat.");
+                activePlayers[2].PettingAction(true);
+            }
+            else if (Input.GetKeyUp(KeyCode.J))
+            {
+                Debug.Log("Player3 is no longer petting the bat.");
+                activePlayers[2].PettingAction(false);
+            }
+        }
+
+        if (activePlayers[3] != null)
+        {
+            if (Input.GetKey(KeyCode.L))
+            {
+                Debug.Log("Player4 is petting the bat.");
+                activePlayers[3].PettingAction(true);
+            }
+            else if (Input.GetKeyUp(KeyCode.A))
+            {
+                Debug.Log("Player4 is no longer petting the bat.");
+                activePlayers[3].PettingAction(false);
+            }
         }
     }
 
+    private void SetActivePlayers()
+    {
+        Player[] players = FindObjectsOfType<Player>();
 
+        for (int i = 0; i < players.Length; i++)
+        {
+            if(players[i].IsActive())
+            {
+                activePlayers[players[i].GetPlayerNumber() - 1] = players[i];
+            }
+        }
+    }
 
+    public Player[] GetActivePlayers()
+    {
+        return activePlayers;
+    }
 
+    private void DevControls()
+    {
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            FindObjectOfType<Bat>().ToggleSleepAndAwake();
+        }
+    }
 }

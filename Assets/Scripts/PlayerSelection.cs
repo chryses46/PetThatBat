@@ -136,25 +136,21 @@ public class PlayerSelection : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.A))
             {
-                Debug.Log("Enable Player 1.");
                 EnablePlayer(0);
             }
 
             if(Input.GetKeyDown(KeyCode.F))
             {
-                Debug.Log("Enable Player 2.");
                 EnablePlayer(1);
             }
 
             if(Input.GetKeyDown(KeyCode.J))
             {
-                Debug.Log("Enable Player 3.");
                 EnablePlayer(2);
             }
 
             if(Input.GetKeyDown(KeyCode.L))
             {
-                Debug.Log("Enable Player 4.");
                 EnablePlayer(3);
             }
         }

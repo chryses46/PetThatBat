@@ -68,8 +68,6 @@ public class GameOverlord : MonoBehaviour
 			if(numPlayers > 0)
 				numPlayers--;
 		}
-
-		Debug.Log("Number of players = " + numPlayers);
 	}
 
 	public int GetNumPlayers()

@@ -9,8 +9,6 @@ public class UIController : MonoBehaviour
 
     [SerializeField] private Image playerSelectMenu;
 
-    [SerializeField] private GameObject beginGameInteract;
-
     [SerializeField] private Canvas playMenuCanvas;
 
     GameOverlord gameOverlord;
@@ -27,7 +25,7 @@ public class UIController : MonoBehaviour
 
     public void EnablePlayerSelectMenu(bool enabled)
     {
-        playerSelectMenu.gameObject.SetActive(true);
+        playerSelectMenu.gameObject.SetActive(enabled);
     }
 
     public void EnablePlayCanvas(bool enabled)
@@ -35,8 +33,5 @@ public class UIController : MonoBehaviour
         playMenuCanvas.gameObject.SetActive(enabled);
     }
 
-    public void EnableBeginGameInteract(bool enabled)
-    {
-        beginGameInteract.SetActive(true);
-    }
+
 }
