@@ -27,6 +27,11 @@ public class PlayerControls : MonoBehaviour
         {
             KeyboardControls();
         }
+
+        if(gameOverlord.GetCurrentReleaseSetting() == "Cabinet" & Input.GetKeyDown(KeyCode.C))
+        {
+            Application.Quit();
+        }
     }
 
     private void KeyboardControls()

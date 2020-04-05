@@ -22,6 +22,10 @@ public class GameOverlord : MonoBehaviour
 
 	[SerializeField] GameMode gameMode = GameMode.MENU;
 
+	private int numPlayers = 0;
+
+	UIController uIController;
+
 	public string GetCurrentReleaseSetting()
 	{
 		switch (developmentRelease)
@@ -50,5 +54,38 @@ public class GameOverlord : MonoBehaviour
 			default:
 				return "An Error Occured";
 		}
+	}
+
+	public void AddRemovePlayer(int value)
+	{
+		if(value > 0)
+		{
+			if(numPlayers < 4)
+				numPlayers++;
+		}
+		else
+		{
+			if(numPlayers > 0)
+				numPlayers--;
+		}
+
+		Debug.Log("Number of players = " + numPlayers);
+	}
+
+	public int GetNumPlayers()
+	{
+		return numPlayers;
+	}
+
+	public void StartGame()
+	{
+		gameMode = GameMode.PLAY;
+
+		GetComponent<UIController>().EnableMainMenuCanvas(false);
+
+		GetComponent<UIController>().EnablePlayCanvas(true);
+
+		// also some music
+
 	}
 }

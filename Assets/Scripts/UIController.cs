@@ -6,25 +6,37 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private Canvas mainMenuCanvas;
-    [SerializeField] private Image pcPlayerSelectMenu;
-    [SerializeField] private Image cabinetPlayerSelectMenu;
-    [SerializeField] private Image mobilePlayerSelectMenu;
+
+    [SerializeField] private Image playerSelectMenu;
+
+    [SerializeField] private GameObject beginGameInteract;
 
     [SerializeField] private Canvas playMenuCanvas;
 
+    GameOverlord gameOverlord;
+
+    private void Start()
+    {
+        gameOverlord = GetComponent<GameOverlord>();
+    }
+
     public void EnableMainMenuCanvas(bool enabled)
     {
-        // enable the main menu canvas object
+        mainMenuCanvas.gameObject.SetActive(enabled);
     }
 
     public void EnablePlayerSelectMenu(bool enabled)
     {
-
+        playerSelectMenu.gameObject.SetActive(true);
     }
 
     public void EnablePlayCanvas(bool enabled)
     {
-        // enable the play canvas
+        playMenuCanvas.gameObject.SetActive(enabled);
     }
 
+    public void EnableBeginGameInteract(bool enabled)
+    {
+        beginGameInteract.SetActive(true);
+    }
 }
