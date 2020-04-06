@@ -14,6 +14,8 @@ public class ScoreBoard : MonoBehaviour
 
     [SerializeField] private Text[] playerScoreDisplays;
 
+    private int totalPlayerScore = 0;
+
     private void Start()
     {
         playerControls = FindObjectOfType<PlayerControls>();
@@ -37,6 +39,7 @@ public class ScoreBoard : MonoBehaviour
 
                 playerScoreDisplays[i].text = score.ToString();
 
+                totalPlayerScore += score;
             }
         }
     }
@@ -50,5 +53,25 @@ public class ScoreBoard : MonoBehaviour
                 playerScoreWrappers[i].SetActive(true);
             }
         }
+    }
+
+    public Player[] GetPettingPlayers()
+    {
+        Player[] pettingPlayers = { null,null,null,null };
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            if(players[i] != null && players[i].IsPetting())
+            {
+                pettingPlayers[i] = players[i];
+            }
+        }
+
+        return pettingPlayers;
+    }
+
+    public int GetTotalPlayerScore()
+    {
+        return totalPlayerScore;
     }
 }

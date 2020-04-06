@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
 
     private int score;
 
+    private bool isPetting;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -22,8 +24,6 @@ public class Player : MonoBehaviour
     {
         isActive = true;
     }
-
-    
 
     public int GetPlayerNumber()
     {
@@ -39,14 +39,26 @@ public class Player : MonoBehaviour
     {
         animator.SetBool("isPetting", isPetting);
 
+        this.isPetting = isPetting;
+
         if(isPetting)
         {
             score++;
         }
     }
 
+    public bool IsPetting()
+    {
+        return isPetting;
+    }
+
     public int GetScore()
     {
         return score;
+    }
+
+    public void SetScore(int score)
+    {
+        this.score = score;
     }
 }
