@@ -37,11 +37,11 @@ public class Player : MonoBehaviour
 
     public void PettingAction(bool isPetting)
     {
-        animator.SetBool("isPetting", isPetting);
+        //animator.SetBool("isPetting", isPetting);
 
         this.isPetting = isPetting;
 
-        if(isPetting)
+        if(isPetting && FindObjectOfType<Bat>().isBatSleeping())
         {
             score++;
         }

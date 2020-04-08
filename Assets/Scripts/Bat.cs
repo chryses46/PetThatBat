@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,12 +50,8 @@ public class Bat : MonoBehaviour
         else if(isSleeping)
         {
             if(startingTime >= secondsUntilWoken)
-            {
-                SleepingBat(false);
-
-                ToggleTimer(false);
-
-                startingTime = 0;
+            {  
+                WokeBat();
             }
             else
             {
@@ -98,7 +95,7 @@ public class Bat : MonoBehaviour
 
         // Determine when the bat will awaken (total score % based on # of players method) - 
         // Currently hard set to: min 10secs, max 20secs
-        secondsUntilWoken = Random.Range(minimumSecondsToSleep, maximumSecondsToSleep);
+        secondsUntilWoken = UnityEngine.Random.Range(minimumSecondsToSleep, maximumSecondsToSleep);
 
         Debug.Log("The bat will sleep for " + secondsUntilWoken + " seconds.");
 
@@ -112,11 +109,55 @@ public class Bat : MonoBehaviour
 
         for (int i = 0; i < currentlyPettingPlayers.Length; i++)
         {
-            currentlyPettingPlayers[i].SetScore(0);
+            if(currentlyPettingPlayers[i] != null)
+                currentlyPettingPlayers[i].SetScore(0);
         }
-        
-        // now determine if there is anyone who's score is not = to 0
-            // that player/ those players will play again, restarting the process.
+
+        Player[] activePlayers = FindObjectOfType<PlayerControls>().GetActivePlayers();
+
+        int playersStillPlaying = 0;
+
+        for (int i = 0; i < activePlayers.Length; i++)
+        {
+            if(activePlayers[i] != null)
+            {
+                if(activePlayers[i].GetScore() > 0)
+                {
+                playersStillPlaying += 1;
+                }
+            }
+            
+        }
+
+        SleepingBat(false);
+
+        ToggleTimer(false);
+
+        if (playersStillPlaying > 0)
+        {
+            PlayAgain();
+        }
+        else
+        {
+            GameOver();
+        }
+    }
+
+    private void PlayAgain()
+    {
+        // here we sould do some kind of recognition that the players who will continue to play, will
+        Debug.Log("Yay! We play again. More info here..");
+
+        secondsUntilSleeping = 3;
+
+        ToggleTimer(true);
+
+        startingTime = 0;
+    }
+
+    private void GameOver()
+    {
+        FindObjectOfType<GameOverlord>().GameOver();
     }
 
     private void StartleTimeDetermination()
@@ -131,7 +172,7 @@ public class Bat : MonoBehaviour
         {
             isStartling = true;
 
-            float secondsUntilNextStartle = Random.Range(minimumStartleWindowInSeconds, maximumStartleWindowInSeconds);
+            float secondsUntilNextStartle = UnityEngine.Random.Range(minimumStartleWindowInSeconds, maximumStartleWindowInSeconds);
 
             Debug.Log("There will be " + secondsUntilNextStartle + " seconds before the next startling of the bat.");
 
@@ -145,7 +186,6 @@ public class Bat : MonoBehaviour
 
         if(isSleeping)
         {
-            Debug.Log("The bat becomes startled.");
             animator.SetTrigger("startled");
         }
 
@@ -181,5 +221,10 @@ public class Bat : MonoBehaviour
         minimumStartleWindowInSeconds = min;
 
         maximumStartleWindowInSeconds = max;
+    }
+
+    public bool isBatSleeping()
+    {
+        return isSleeping;
     }
 }

@@ -11,6 +11,8 @@ public class UIController : MonoBehaviour
 
     [SerializeField] private Canvas playMenuCanvas;
 
+    [SerializeField] private GameObject gameOverScreen;
+
     GameOverlord gameOverlord;
 
     private void Start()
@@ -33,5 +35,8 @@ public class UIController : MonoBehaviour
         playMenuCanvas.gameObject.SetActive(enabled);
     }
 
-
+    public void EnableGameOverScreen(bool enabled)
+    {
+        gameOverScreen.SetActive(true);
+    }
 }

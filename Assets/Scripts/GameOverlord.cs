@@ -15,7 +15,7 @@ public class GameOverlord : MonoBehaviour
 	{
 		MENU,
 		PLAY,
-		LOSE
+		GAMEOVER
 	}
 
 	[SerializeField] Release developmentRelease = Release.PC;
@@ -49,8 +49,8 @@ public class GameOverlord : MonoBehaviour
 				return "MENU";
 			case GameMode.PLAY:
 				return "PLAY";
-			case GameMode.LOSE:
-				return "LOSE";
+			case GameMode.GAMEOVER:
+				return "GAMEOVER";
 			default:
 				return "An Error Occured";
 		}
@@ -85,5 +85,12 @@ public class GameOverlord : MonoBehaviour
 
 		// also some music
 
+	}
+
+	public void GameOver()
+	{
+		gameMode = GameMode.GAMEOVER;
+
+		GetComponent<UIController>().EnableGameOverScreen(true);
 	}
 }

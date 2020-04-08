@@ -74,4 +74,5 @@ public class ScoreBoard : MonoBehaviour
     {
         return totalPlayerScore;
     }
-}
+
+ }

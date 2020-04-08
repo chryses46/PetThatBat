@@ -28,7 +28,7 @@ public class PlayerControls : MonoBehaviour
     public void Update()
     {
         // Actually, first run check for keyboard vs controller.
-        if (gameOverlord.GetCurrentGameMode() == "PLAY")
+        if (gameOverlord.GetCurrentGameMode() == "PLAY" )
         {
             KeyboardControls();
         }
@@ -48,12 +48,10 @@ public class PlayerControls : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.A))
             {
-                Debug.Log("Player1 is petting the bat.");
                 activePlayers[0].PettingAction(true);
             }
             else if (Input.GetKeyUp(KeyCode.A))
             {
-                Debug.Log("Player1 is no longer petting the bat.");
                 activePlayers[0].PettingAction(false);
             }
         }
@@ -62,12 +60,10 @@ public class PlayerControls : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.F))
             {
-                Debug.Log("Player2 is petting the bat.");
                 activePlayers[1].PettingAction(true);
             }
             else if (Input.GetKeyUp(KeyCode.F))
             {
-                Debug.Log("Player2 is no longer petting the bat.");
                 activePlayers[1].PettingAction(false);
             }
         }
@@ -76,12 +72,10 @@ public class PlayerControls : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.J))
             {
-                Debug.Log("Player3 is petting the bat.");
                 activePlayers[2].PettingAction(true);
             }
             else if (Input.GetKeyUp(KeyCode.J))
             {
-                Debug.Log("Player3 is no longer petting the bat.");
                 activePlayers[2].PettingAction(false);
             }
         }
@@ -90,12 +84,10 @@ public class PlayerControls : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.L))
             {
-                Debug.Log("Player4 is petting the bat.");
                 activePlayers[3].PettingAction(true);
             }
             else if (Input.GetKeyUp(KeyCode.A))
             {
-                Debug.Log("Player4 is no longer petting the bat.");
                 activePlayers[3].PettingAction(false);
             }
         }
