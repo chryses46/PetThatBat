@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
 
     private bool isPetting;
 
+    private string petAnimationIdentifier;
+
+    private int numTimesStoppedPetting;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -23,6 +27,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         isActive = true;
+
+        petAnimationIdentifier = "player" + playerNumber + "IsPetting";
     }
 
     public int GetPlayerNumber()
@@ -37,13 +43,21 @@ public class Player : MonoBehaviour
 
     public void PettingAction(bool isPetting)
     {
-        //animator.SetBool("isPetting", isPetting);
-
-        this.isPetting = isPetting;
-
-        if(isPetting && FindObjectOfType<Bat>().isBatSleeping())
+        if(isActive)
         {
-            score++;
+            animator.SetBool(petAnimationIdentifier, isPetting);
+
+            this.isPetting = isPetting;
+
+            if(isPetting && FindObjectOfType<Bat>().isBatSleeping())
+            {
+                score++;
+            }
+
+            if(!isPetting)
+            {
+                numTimesStoppedPetting += 1;
+            }
         }
     }
 
@@ -60,5 +74,17 @@ public class Player : MonoBehaviour
     public void SetScore(int score)
     {
         this.score = score;
+    }
+
+    public void DisabledThisRound()
+    {
+        isActive = false;
+
+        // start withdrawl animation
+    }
+
+    public int GetNumTimesStoppedPetting()
+    {
+        return numTimesStoppedPetting;
     }
 }

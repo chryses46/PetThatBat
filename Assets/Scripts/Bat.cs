@@ -110,7 +110,9 @@ public class Bat : MonoBehaviour
         for (int i = 0; i < currentlyPettingPlayers.Length; i++)
         {
             if(currentlyPettingPlayers[i] != null)
-                currentlyPettingPlayers[i].SetScore(0);
+            {
+                currentlyPettingPlayers[i].DisabledThisRound();
+            }    
         }
 
         Player[] activePlayers = FindObjectOfType<PlayerControls>().GetActivePlayers();
@@ -121,12 +123,11 @@ public class Bat : MonoBehaviour
         {
             if(activePlayers[i] != null)
             {
-                if(activePlayers[i].GetScore() > 0)
+                if(activePlayers[i].IsActive())
                 {
-                playersStillPlaying += 1;
+                    playersStillPlaying += 1;
                 }
             }
-            
         }
 
         SleepingBat(false);

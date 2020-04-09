@@ -91,6 +91,8 @@ public class GameOverlord : MonoBehaviour
 	{
 		gameMode = GameMode.GAMEOVER;
 
+		GetComponent<UIController>().EnablePlayCanvas(false);
+
 		GetComponent<UIController>().EnableGameOverScreen(true);
 	}
 }
