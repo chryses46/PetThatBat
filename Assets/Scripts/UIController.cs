@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] private Canvas mainMenuCanvas;
+    [SerializeField] private Canvas titleScreen;
 
-    [SerializeField] private Image playerSelectMenu;
+    [SerializeField] private Canvas playerSelectMenu;
 
     [SerializeField] private Canvas playMenuCanvas;
 
     [SerializeField] private GameObject gameOverScreen;
+
+    [SerializeField] private Image transitioner;
 
     GameOverlord gameOverlord;
 
@@ -20,14 +22,18 @@ public class UIController : MonoBehaviour
         gameOverlord = GetComponent<GameOverlord>();
     }
 
-    public void EnableMainMenuCanvas(bool enabled)
+    public void EnableTitleScreen(bool enabled)
     {
-        mainMenuCanvas.gameObject.SetActive(enabled);
+        //TriggerTransitioner(enabled);
+
+        titleScreen.gameObject.SetActive(enabled);
     }
 
     public void EnablePlayerSelectMenu(bool enabled)
     {
-        playerSelectMenu.gameObject.SetActive(enabled);
+        //TriggerTransitioner(enabled);
+
+        playerSelectMenu.gameObject.SetActive(enabled);        
     }
 
     public void EnablePlayCanvas(bool enabled)
@@ -37,6 +43,31 @@ public class UIController : MonoBehaviour
 
     public void EnableGameOverScreen(bool enabled)
     {
-        gameOverScreen.SetActive(true);
+        gameOverScreen.SetActive(enabled);
+    }
+
+    
+    public void TriggerTransitioner(bool isFadingIn)
+    {
+        Debug.Log("Fader Triggered");
+
+        Color transitionerColor = transitioner.color;
+
+        switch (isFadingIn)
+        {
+            case true:
+                Color inStartColor = new Color(transitionerColor.r, transitionerColor.g, transitionerColor.b, 0);
+                transitioner.color = inStartColor;
+                transitioner.GetComponent<Animator>().SetTrigger("fadeIn");
+                break;
+            case false:
+                Color outStartColor = new Color(transitionerColor.r, transitionerColor.g, transitionerColor.b, 255);
+                transitioner.color = outStartColor;
+                transitioner.GetComponent<Animator>().SetTrigger("fadeOut");
+                break;
+
+        }
+
+
     }
 }

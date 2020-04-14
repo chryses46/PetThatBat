@@ -13,13 +13,13 @@ public class PlayerControls : MonoBehaviour
 
     GameOverlord gameOverlord;
 
-    private bool pressed;
-
     [SerializeField] private Player[] activePlayers = {null,null,null,null};
+
+    //DEV VARS
 
     private void Start()
     {
-        gameOverlord = FindObjectOfType<GameOverlord>();
+        gameOverlord = GetComponent<GameOverlord>();
 
         SetActivePlayers();
 
@@ -31,6 +31,14 @@ public class PlayerControls : MonoBehaviour
         if (gameOverlord.GetCurrentGameMode() == "PLAY" )
         {
             KeyboardControls();
+        }
+        else if(gameOverlord.GetCurrentGameMode() == "START")
+        {
+            if(Input.anyKey)
+            {
+                Debug.Log("any key pressed");
+                gameOverlord.LoadPlayerSelect();
+            }
         }
 
         if(gameOverlord.GetCurrentReleaseSetting() == "Cabinet" & Input.GetKeyDown(KeyCode.C))

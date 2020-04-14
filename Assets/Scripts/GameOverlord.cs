@@ -13,6 +13,7 @@ public class GameOverlord : MonoBehaviour
 
 	private enum GameMode
 	{
+		START,
 		MENU,
 		PLAY,
 		GAMEOVER
@@ -20,11 +21,18 @@ public class GameOverlord : MonoBehaviour
 
 	[SerializeField] Release developmentRelease = Release.PC;
 
-	[SerializeField] GameMode gameMode = GameMode.MENU;
+	[SerializeField] GameMode gameMode = GameMode.START;
 
 	private int numPlayers = 0;
 
 	UIController uIController;
+
+	private void Start()
+	{
+		uIController = GetComponent<UIController>();
+
+		uIController.TriggerTransitioner(false);
+	}
 
 	public string GetCurrentReleaseSetting()
 	{
@@ -45,6 +53,8 @@ public class GameOverlord : MonoBehaviour
 	{
 		switch (gameMode)
 		{
+			case GameMode.START:
+				return "START";
 			case GameMode.MENU:
 				return "MENU";
 			case GameMode.PLAY:
@@ -79,7 +89,7 @@ public class GameOverlord : MonoBehaviour
 	{
 		gameMode = GameMode.PLAY;
 
-		GetComponent<UIController>().EnableMainMenuCanvas(false);
+		GetComponent<UIController>().EnablePlayerSelectMenu(false);
 
 		GetComponent<UIController>().EnablePlayCanvas(true);
 
@@ -94,5 +104,14 @@ public class GameOverlord : MonoBehaviour
 		GetComponent<UIController>().EnablePlayCanvas(false);
 
 		GetComponent<UIController>().EnableGameOverScreen(true);
+	}
+
+	public void LoadPlayerSelect()
+	{
+		uIController.EnableTitleScreen(false);
+
+		gameMode = GameMode.MENU;
+
+		uIController.EnablePlayerSelectMenu(true);
 	}
 }

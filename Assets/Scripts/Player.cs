@@ -80,6 +80,8 @@ public class Player : MonoBehaviour
     {
         isActive = false;
 
+        animator.SetBool(petAnimationIdentifier, false);
+
         // start withdrawl animation
     }
 
