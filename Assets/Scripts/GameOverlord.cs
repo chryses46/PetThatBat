@@ -93,6 +93,8 @@ public class GameOverlord : MonoBehaviour
 
 		GetComponent<UIController>().EnablePlayCanvas(true);
 
+		GetComponent<PlayerControls>().SetActivePlayers();
+
 		// also some music
 
 	}

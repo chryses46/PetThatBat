@@ -49,25 +49,26 @@ public class UIController : MonoBehaviour
     
     public void TriggerTransitioner(bool isFadingIn)
     {
-        Debug.Log("Fader Triggered");
-
         Color transitionerColor = transitioner.color;
 
         switch (isFadingIn)
         {
             case true:
                 Color inStartColor = new Color(transitionerColor.r, transitionerColor.g, transitionerColor.b, 0);
+                
                 transitioner.color = inStartColor;
+                
                 transitioner.GetComponent<Animator>().SetTrigger("fadeIn");
+                
                 break;
             case false:
                 Color outStartColor = new Color(transitionerColor.r, transitionerColor.g, transitionerColor.b, 255);
+                
                 transitioner.color = outStartColor;
+
                 transitioner.GetComponent<Animator>().SetTrigger("fadeOut");
+
                 break;
-
         }
-
-
     }
 }

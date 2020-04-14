@@ -50,10 +50,8 @@ public class SVGAnimate : MonoBehaviour
     {
         if (svgImageObject.sprite == animationSprites[0])
         {
-            Debug.Log("sprite set to 0");
             if (startingTime >= secondsBetweenBlinks)
             {
-                Debug.Log("Swapping to blink");
                 svgImageObject.sprite = animationSprites[1];
 
                 startingTime = 0;
@@ -61,7 +59,6 @@ public class SVGAnimate : MonoBehaviour
         }
         else if(svgImageObject.sprite == animationSprites[1])
         {
-            Debug.Log("sprite set to 1");
             if (startingTime >= secondsToOpenEyes)
             {
                 svgImageObject.sprite = animationSprites[0];
@@ -69,7 +66,5 @@ public class SVGAnimate : MonoBehaviour
                 startingTime = 0;
             }    
         }
-
-        
     }
 }

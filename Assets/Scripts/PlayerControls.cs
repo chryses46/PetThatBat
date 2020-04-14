@@ -21,8 +21,6 @@ public class PlayerControls : MonoBehaviour
     {
         gameOverlord = GetComponent<GameOverlord>();
 
-        SetActivePlayers();
-
     }
 
     public void Update()
@@ -36,7 +34,6 @@ public class PlayerControls : MonoBehaviour
         {
             if(Input.anyKey)
             {
-                Debug.Log("any key pressed");
                 gameOverlord.LoadPlayerSelect();
             }
         }
@@ -101,7 +98,7 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    private void SetActivePlayers()
+    public void SetActivePlayers()
     {
         Player[] players = FindObjectsOfType<Player>();
 
