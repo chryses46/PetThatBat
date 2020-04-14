@@ -29,6 +29,8 @@ public class Bat : MonoBehaviour
 
     private bool isTimerRunning;
 
+    private bool isGameOver = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -59,6 +61,10 @@ public class Bat : MonoBehaviour
             }
         }
 
+        if(isGameOver)
+        {
+            GameOver();
+        }
 
         if (isTimerRunning)
         {
@@ -140,7 +146,7 @@ public class Bat : MonoBehaviour
         }
         else
         {
-            GameOver();
+            isGameOver = true;
         }
     }
 
@@ -158,7 +164,24 @@ public class Bat : MonoBehaviour
 
     private void GameOver()
     {
-        FindObjectOfType<GameOverlord>().GameOver();
+        Player[] players = FindObjectsOfType<Player>();
+
+        int playersWithdrawn = 0;
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            if(players[i].isWithdrawn())
+            {
+                playersWithdrawn += 1;
+            }
+        }
+        
+        if(playersWithdrawn == 4)
+        {
+            FindObjectOfType<GameOverlord>().GameOver();
+
+            isGameOver = false;
+        }
     }
 
     private void StartleTimeDetermination()

@@ -91,7 +91,7 @@ public class PlayerControls : MonoBehaviour
             {
                 activePlayers[3].PettingAction(true);
             }
-            else if (Input.GetKeyUp(KeyCode.A))
+            else if (Input.GetKeyUp(KeyCode.L))
             {
                 activePlayers[3].PettingAction(false);
             }

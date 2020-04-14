@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField] int playerNumber;
 
+    [SerializeField] GameObject caught;
+
     Animator animator;
 
     private bool isActive;
@@ -18,6 +20,8 @@ public class Player : MonoBehaviour
     private string petAnimationIdentifier;
 
     private int numTimesStoppedPetting;
+
+    private bool withdrawn;
 
     private void Start()
     {
@@ -43,18 +47,18 @@ public class Player : MonoBehaviour
 
     public void PettingAction(bool isPetting)
     {
-        if(isActive)
+        if (isActive)
         {
             animator.SetBool(petAnimationIdentifier, isPetting);
 
             this.isPetting = isPetting;
 
-            if(isPetting && FindObjectOfType<Bat>().isBatSleeping())
+            if (isPetting && FindObjectOfType<Bat>().isBatSleeping())
             {
                 score++;
             }
 
-            if(!isPetting)
+            if (!isPetting)
             {
                 numTimesStoppedPetting += 1;
             }
@@ -78,11 +82,26 @@ public class Player : MonoBehaviour
 
     public void DisabledThisRound()
     {
+        animator.SetBool(petAnimationIdentifier, false);
+        
         isActive = false;
 
-        animator.SetBool(petAnimationIdentifier, false);
+        caught.SetActive(true);
+    }
 
-        // start withdrawl animation
+    public void Withdrawl()
+    {
+        animator.SetTrigger("withdrawl"+playerNumber);
+    }
+
+    public void SetWithdawn()
+    {
+        withdrawn = true;
+    }
+
+    public bool isWithdrawn()
+    {
+        return withdrawn;
     }
 
     public int GetNumTimesStoppedPetting()
