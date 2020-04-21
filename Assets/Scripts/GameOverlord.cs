@@ -11,12 +11,13 @@ public class GameOverlord : MonoBehaviour
 		MOBI
 	}
 
-	private enum GameMode
+	public enum GameMode
 	{
 		START,
 		MENU,
 		PLAY,
-		GAMEOVER
+		GAMEOVER,
+		ENDGAME
 	}
 
 	[SerializeField] Release developmentRelease = Release.PC;
@@ -30,8 +31,6 @@ public class GameOverlord : MonoBehaviour
 	private void Start()
 	{
 		uIController = GetComponent<UIController>();
-
-		uIController.TriggerTransitioner(false);
 	}
 
 	public string GetCurrentReleaseSetting()
@@ -61,6 +60,8 @@ public class GameOverlord : MonoBehaviour
 				return "PLAY";
 			case GameMode.GAMEOVER:
 				return "GAMEOVER";
+			case GameMode.ENDGAME:
+				return "ENDGAME";
 			default:
 				return "An Error Occured";
 		}
@@ -89,9 +90,9 @@ public class GameOverlord : MonoBehaviour
 	{
 		gameMode = GameMode.PLAY;
 
-		GetComponent<UIController>().EnablePlayerSelectMenu(false);
+		uIController.EnablePlayerSelectMenu(false);
 
-		GetComponent<UIController>().EnablePlayCanvas(true);
+		uIController.EnablePlayCanvas(true);
 
 		GetComponent<PlayerControls>().SetActivePlayers();
 
@@ -103,9 +104,9 @@ public class GameOverlord : MonoBehaviour
 	{
 		gameMode = GameMode.GAMEOVER;
 
-		GetComponent<UIController>().EnablePlayCanvas(false);
+		uIController.EnablePlayCanvas(false);
 
-		GetComponent<UIController>().EnableGameOverScreen(true);
+		uIController.EnableGameOverScreen(true);
 	}
 
 	public void LoadPlayerSelect()
@@ -115,5 +116,19 @@ public class GameOverlord : MonoBehaviour
 		gameMode = GameMode.MENU;
 
 		uIController.EnablePlayerSelectMenu(true);
+	}
+
+	public void LoadStartScreen()
+	{
+		uIController.EnableGameOverScreen(false);
+
+		uIController.EnableTitleScreen(true);
+
+		gameMode = GameMode.START;
+	}
+
+	public void SetCurrentGameMode(GameMode gameMode)
+	{
+		this.gameMode = gameMode;
 	}
 }

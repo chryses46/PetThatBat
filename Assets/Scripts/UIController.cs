@@ -24,15 +24,11 @@ public class UIController : MonoBehaviour
 
     public void EnableTitleScreen(bool enabled)
     {
-        //TriggerTransitioner(enabled);
-
         titleScreen.gameObject.SetActive(enabled);
     }
 
     public void EnablePlayerSelectMenu(bool enabled)
     {
-        //TriggerTransitioner(enabled);
-
         playerSelectMenu.gameObject.SetActive(enabled);        
     }
 

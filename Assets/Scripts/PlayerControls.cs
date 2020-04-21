@@ -13,9 +13,13 @@ public class PlayerControls : MonoBehaviour
 
     GameOverlord gameOverlord;
 
-    [SerializeField] private Player[] activePlayers = {null,null,null,null};
+    [SerializeField] private Player[] activePlayers;
 
-    //DEV VARS
+    Player
+        player1,
+        player2,
+        player3,
+        player4;
 
     private void Start()
     {
@@ -25,6 +29,11 @@ public class PlayerControls : MonoBehaviour
 
     public void Update()
     {
+        if(gameOverlord.GetCurrentReleaseSetting() == "Cabinet" & Input.GetKeyDown(KeyCode.C))
+        {
+            Application.Quit();
+        }
+
         // Actually, first run check for keyboard vs controller.
         if (gameOverlord.GetCurrentGameMode() == "PLAY" )
         {
@@ -32,16 +41,20 @@ public class PlayerControls : MonoBehaviour
         }
         else if(gameOverlord.GetCurrentGameMode() == "START")
         {
-            if(Input.anyKey)
+            if(Input.anyKeyDown)
             {
                 gameOverlord.LoadPlayerSelect();
             }
         }
-
-        if(gameOverlord.GetCurrentReleaseSetting() == "Cabinet" & Input.GetKeyDown(KeyCode.C))
+        else if(gameOverlord.GetCurrentGameMode() == "ENDGAME")
         {
-            Application.Quit();
+            if (Input.anyKeyDown)
+            {
+                gameOverlord.LoadStartScreen();
+            }
         }
+
+        
 
         DevControls();
     }
@@ -49,65 +62,88 @@ public class PlayerControls : MonoBehaviour
     private void KeyboardControls()
     {
         // control if key already pressed
-        if (activePlayers[0] != null)
+        if (player1 && player1.IsActive())
         {
             if (Input.GetKey(KeyCode.A))
             {
-                activePlayers[0].PettingAction(true);
+                player1.PettingAction(true);
             }
             else if (Input.GetKeyUp(KeyCode.A))
             {
-                activePlayers[0].PettingAction(false);
+                player1.PettingAction(false);
             }
         }
 
-        if (activePlayers[1] != null)
+        if (player2 && player2.IsActive())
         {
             if (Input.GetKey(KeyCode.F))
             {
-                activePlayers[1].PettingAction(true);
+                player2.PettingAction(true);
             }
             else if (Input.GetKeyUp(KeyCode.F))
             {
-                activePlayers[1].PettingAction(false);
+                player2.PettingAction(false);
             }
         }
 
-        if (activePlayers[2] != null)
+        if (player3 && player3.IsActive())
         {
             if (Input.GetKey(KeyCode.J))
             {
-                activePlayers[2].PettingAction(true);
+                player3.PettingAction(true);
             }
             else if (Input.GetKeyUp(KeyCode.J))
             {
-                activePlayers[2].PettingAction(false);
+                player3.PettingAction(false);
             }
         }
 
-        if (activePlayers[3] != null)
+        if (player4 && player4.IsActive())
         {
             if (Input.GetKey(KeyCode.L))
             {
-                activePlayers[3].PettingAction(true);
+                player4.PettingAction(true);
             }
             else if (Input.GetKeyUp(KeyCode.L))
             {
-                activePlayers[3].PettingAction(false);
+                player4.PettingAction(false);
             }
+        }
+    }
+
+    public void EnableDisablePlayerControls(Player player)
+    {
+        int playerNumber = player.GetPlayerNumber();
+
+        switch (playerNumber)
+        {
+            case 1:
+                player1 = player;
+                break;
+            case 2:
+                player2 = player;
+                break;
+            case 3:
+                player3 = player;
+                break;
+            case 4:
+                player4 = player;
+                break;
+            default:
+                break;
         }
     }
 
     public void SetActivePlayers()
     {
-        Player[] players = FindObjectsOfType<Player>();
+        activePlayers = new Player[FindObjectsOfType<Player>().Length];
 
-        for (int i = 0; i < players.Length; i++)
+        activePlayers = FindObjectsOfType<Player>();
+
+
+        for (int i = 0; i < activePlayers.Length; i++)
         {
-            if(players[i].IsActive())
-            {
-                activePlayers[players[i].GetPlayerNumber() - 1] = players[i];
-            }
+            EnableDisablePlayerControls(activePlayers[i]);
         }
     }
 

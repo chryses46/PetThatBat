@@ -33,14 +33,11 @@ public class ScoreBoard : MonoBehaviour
     {
         for (int i = 0; i < players.Length; i++)
         {
-            if(players[i] != null)
-            {
-                int score = players[i].GetScore();
+            int score = players[i].GetScore();
 
-                playerScoreDisplays[i].text = score.ToString();
+            playerScoreDisplays[players[i].GetPlayerNumber() - 1].text = score.ToString();
 
-                totalPlayerScore += score;
-            }
+            totalPlayerScore += score;
         }
     }
 
@@ -48,26 +45,8 @@ public class ScoreBoard : MonoBehaviour
     {
         for (int i = 0; i < players.Length; i++)
         {
-            if(players[i] != null)
-            {
-                playerScoreWrappers[i].SetActive(true);
-            }
+            playerScoreWrappers[players[i].GetPlayerNumber() - 1].SetActive(true);
         }
-    }
-
-    public Player[] GetPettingPlayers()
-    {
-        Player[] pettingPlayers = { null,null,null,null };
-
-        for (int i = 0; i < players.Length; i++)
-        {
-            if(players[i] != null && players[i].IsPetting())
-            {
-                pettingPlayers[i] = players[i];
-            }
-        }
-
-        return pettingPlayers;
     }
 
     public int GetTotalPlayerScore()

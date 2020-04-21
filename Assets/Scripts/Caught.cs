@@ -14,8 +14,8 @@ public class Caught : MonoBehaviour
 
     public void DisableThis()
     {
-        gameObject.SetActive(false);
-
         linkedPlayer.Withdrawl();
+
+        gameObject.SetActive(false);
     }
 }

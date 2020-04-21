@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] GameObject caught;
 
+    [SerializeField] Sprite playerSprite;
+
     Animator animator;
 
     private bool isActive;
@@ -49,17 +51,17 @@ public class Player : MonoBehaviour
     {
         if (isActive)
         {
-            animator.SetBool(petAnimationIdentifier, isPetting);
-
             this.isPetting = isPetting;
 
-            if (isPetting && FindObjectOfType<Bat>().isBatSleeping())
+            if (isPetting && FindObjectOfType<Bat>().GetBatState() == "SLEEPING") // Change to check for BatState.SLEEPING
             {
+                animator.SetBool(petAnimationIdentifier, isPetting);
+
                 score++;
             }
-
-            if (!isPetting)
+            else if(!isPetting)
             {
+                animator.SetBool(petAnimationIdentifier, isPetting);
                 numTimesStoppedPetting += 1;
             }
         }
@@ -73,6 +75,11 @@ public class Player : MonoBehaviour
     public int GetScore()
     {
         return score;
+    }
+
+    public Sprite GetPlayerSprite()
+    {
+        return playerSprite;
     }
 
     public void SetScore(int score)

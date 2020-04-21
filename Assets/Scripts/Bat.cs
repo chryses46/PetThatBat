@@ -7,6 +7,17 @@ public class Bat : MonoBehaviour
 {
     Animator animator;
 
+    enum BatState
+    {
+        WAITING,
+        SLEEPING,
+        WOKEN
+    }
+
+    BatState batstate = BatState.WAITING;
+
+    int roundNumber = 0;
+
     private bool isSleeping;
 
     private float startingTime = 0;
@@ -76,7 +87,11 @@ public class Bat : MonoBehaviour
     {
         animator.SetBool("isSleeping", isSleeping);
 
+        batstate = BatState.SLEEPING;
+
         this.isSleeping = isSleeping;
+
+        ToggleTimer(isSleeping);
     }
 
     public void ToggleSleepAndAwake()
@@ -93,52 +108,45 @@ public class Bat : MonoBehaviour
 
     private void BatNapTime()
     {
-        // Play blinkToSleep animation
-        animator.SetTrigger("blinkToSleep");
+        // iterate round number
+        roundNumber += 1;
 
-        // Set isSleeping animation boolean to true
-        SleepingBat(true);
+        Debug.Log("Round " + roundNumber);
+
+        //possible chance to display round number.
+            // set round number
+            // call animator for round number display (or put at the start of "blink to sleep" for ease
+
+        // Play blinkToSleep animation
+        animator.SetTrigger("blinkToSleep");// Sets isSleeping animation boolean to true at end of blinkToSleep anim
 
         // Determine when the bat will awaken (total score % based on # of players method) - 
         // Currently hard set to: min 10secs, max 20secs
         secondsUntilWoken = UnityEngine.Random.Range(minimumSecondsToSleep, maximumSecondsToSleep);
-
-        Debug.Log("The bat will sleep for " + secondsUntilWoken + " seconds.");
-
-        ToggleTimer(true);
-
     }
 
     private void WokeBat()
     {
-        Player[] currentlyPettingPlayers = FindObjectOfType<ScoreBoard>().GetPettingPlayers();
-
-        for (int i = 0; i < currentlyPettingPlayers.Length; i++)
-        {
-            if(currentlyPettingPlayers[i] != null)
-            {
-                currentlyPettingPlayers[i].DisabledThisRound();
-            }    
-        }
-
-        Player[] activePlayers = FindObjectOfType<PlayerControls>().GetActivePlayers();
-
         int playersStillPlaying = 0;
 
-        for (int i = 0; i < activePlayers.Length; i++)
+        Player[] players = FindObjectsOfType<Player>();
+
+        for (int i = 0; i < players.Length; i++)
         {
-            if(activePlayers[i] != null)
+
+            if (players[i].IsPetting())
             {
-                if(activePlayers[i].IsActive())
-                {
-                    playersStillPlaying += 1;
-                }
+                players[i].DisabledThisRound();
+            }
+            else
+            {
+                playersStillPlaying += 1;
             }
         }
 
-        SleepingBat(false);
+        ToggleSleepAndAwake();
 
-        ToggleTimer(false);
+        batstate = BatState.WOKEN;
 
         if (playersStillPlaying > 0)
         {
@@ -152,21 +160,20 @@ public class Bat : MonoBehaviour
 
     private void PlayAgain()
     {
-        // here we sould do some kind of recognition that the players who will continue to play, will
-        Debug.Log("Yay! We play again. More info here..");
-
         secondsUntilSleeping = 3;
 
         ToggleTimer(true);
 
         startingTime = 0;
+
+        batstate = BatState.WAITING;
     }
 
     private void GameOver()
     {
-        Player[] players = FindObjectsOfType<Player>();
-
         int playersWithdrawn = 0;
+
+        Player[] players = FindObjectsOfType<Player>();
 
         for (int i = 0; i < players.Length; i++)
         {
@@ -176,7 +183,7 @@ public class Bat : MonoBehaviour
             }
         }
         
-        if(playersWithdrawn == 4)
+        if(playersWithdrawn == players.Length)
         {
             FindObjectOfType<GameOverlord>().GameOver();
 
@@ -197,8 +204,6 @@ public class Bat : MonoBehaviour
             isStartling = true;
 
             float secondsUntilNextStartle = UnityEngine.Random.Range(minimumStartleWindowInSeconds, maximumStartleWindowInSeconds);
-
-            Debug.Log("There will be " + secondsUntilNextStartle + " seconds before the next startling of the bat.");
 
             StartCoroutine(StartleBat(secondsUntilNextStartle));
         }
@@ -250,5 +255,20 @@ public class Bat : MonoBehaviour
     public bool isBatSleeping()
     {
         return isSleeping;
+    }
+
+    public String GetBatState()
+    {
+        switch (batstate)
+        {
+            case BatState.WAITING:
+                return "WAITING";
+            case BatState.SLEEPING:
+                return "SLEEPING";
+            case BatState.WOKEN:
+                return "WOKEN";
+        }
+
+        return "Something went wrong.";
     }
 }

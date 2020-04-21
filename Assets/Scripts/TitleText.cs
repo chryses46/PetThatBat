@@ -14,6 +14,7 @@ public class TitleText : MonoBehaviour
     private void Awake()
     {
         animator = gameObject.GetComponent<Animator>();
+
         ToggleTimer(true);
     }
 
